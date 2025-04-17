@@ -19,6 +19,10 @@ void Enemy::moveToward(Player& player) {
     // Cập nhật vị trí của enemy
     this->x += speed * cos(angle);
     this->y += speed * sin(angle);
+
+    // Cập nhật góc của enemy để luôn hướng về player
+    // Sử dụng angle đã tính toán để xoay sprite của enemy
+    this->rotation = angle * 180.0f / M_PI;  // Chuyển đổi từ radian sang độ
 }
 
 SDL_Rect Enemy::getRect() const {

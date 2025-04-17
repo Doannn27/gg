@@ -75,6 +75,92 @@ void renderTime(SDL_Renderer* renderer, TTF_Font* font, Uint32 elapsedTime) {
     SDL_DestroyTexture(textTexture);
 }
 
+void renderPauseMenu(SDL_Renderer* renderer, TTF_Font* font) {
+    SDL_Color white = { 255, 255, 255 };
+
+    // Tạo màn hình nền cho menu pause
+    SDL_RenderClear(renderer);
+
+    // Hiển thị tiêu đề
+    SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Pause Menu", white);
+    SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
+    SDL_Rect titleRect = { SCREEN_WIDTH / 2 - titleSurface->w / 2, SCREEN_HEIGHT / 4, titleSurface->w, titleSurface->h };
+    SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
+    SDL_FreeSurface(titleSurface);
+    SDL_DestroyTexture(titleTexture);
+
+    // Hiển thị nút "Tiếp tục"
+    SDL_Surface* resumeSurface = TTF_RenderText_Solid(font, "Continue", white);
+    SDL_Texture* resumeTexture = SDL_CreateTextureFromSurface(renderer, resumeSurface);
+    SDL_Rect resumeRect = { SCREEN_WIDTH / 2 - resumeSurface->w / 2, SCREEN_HEIGHT / 2, resumeSurface->w, resumeSurface->h };
+    SDL_RenderCopy(renderer, resumeTexture, NULL, &resumeRect);
+    SDL_FreeSurface(resumeSurface);
+    SDL_DestroyTexture(resumeTexture);
+
+    // Hiển thị nút "Trở về màn hình ban đầu"
+    SDL_Surface* exitMenuSurface = TTF_RenderText_Solid(font, "Back to Main Menu", white);
+    SDL_Texture* exitMenuTexture = SDL_CreateTextureFromSurface(renderer, exitMenuSurface);
+    SDL_Rect exitMenuRect = { SCREEN_WIDTH / 2 - exitMenuSurface->w / 2, SCREEN_HEIGHT / 2 + 50, exitMenuSurface->w, exitMenuSurface->h };
+    SDL_RenderCopy(renderer, exitMenuTexture, NULL, &exitMenuRect);
+    SDL_FreeSurface(exitMenuSurface);
+    SDL_DestroyTexture(exitMenuTexture);
+
+    // Hiển thị nút "Display"
+    SDL_Surface* displaySurface = TTF_RenderText_Solid(font, "Display", white);
+    SDL_Texture* displayTexture = SDL_CreateTextureFromSurface(renderer, displaySurface);
+    SDL_Rect displayRect = { SCREEN_WIDTH / 2 - displaySurface->w / 2, SCREEN_HEIGHT / 2 + 100, displaySurface->w, displaySurface->h };
+    SDL_RenderCopy(renderer, displayTexture, NULL, &displayRect);
+    SDL_FreeSurface(displaySurface);
+    SDL_DestroyTexture(displayTexture);
+
+    SDL_RenderPresent(renderer);
+}
+
+void renderAudioSettings(SDL_Renderer* renderer, TTF_Font* font, Mix_Music* music) {
+    SDL_Color white = { 255, 255, 255 };
+
+    // Tạo màn hình nền cho bảng điều chỉnh âm thanh
+    SDL_RenderClear(renderer);
+
+    // Hiển thị tiêu đề
+    SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Audio Settings", white);
+    SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
+    SDL_Rect titleRect = { SCREEN_WIDTH / 2 - titleSurface->w / 2, SCREEN_HEIGHT / 4, titleSurface->w, titleSurface->h };
+    SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
+    SDL_FreeSurface(titleSurface);
+    SDL_DestroyTexture(titleTexture);
+
+    // Hiển thị nút tắt hoặc bật nhạc
+    std::string audioStatus = Mix_PlayingMusic() ? "Music: ON" : "Music: OFF";
+    SDL_Surface* audioSurface = TTF_RenderText_Solid(font, audioStatus.c_str(), white);
+    SDL_Texture* audioTexture = SDL_CreateTextureFromSurface(renderer, audioSurface);
+    SDL_Rect audioRect = { SCREEN_WIDTH / 2 - audioSurface->w / 2, SCREEN_HEIGHT / 2, audioSurface->w, audioSurface->h };
+    SDL_RenderCopy(renderer, audioTexture, NULL, &audioRect);
+    SDL_FreeSurface(audioSurface);
+    SDL_DestroyTexture(audioTexture);
+
+    // Hiển thị nút điều chỉnh âm lượng
+    int volume = Mix_VolumeMusic(-1);
+    std::string volumeText = "Volume: " + std::to_string(volume);
+    SDL_Surface* volumeSurface = TTF_RenderText_Solid(font, volumeText.c_str(), white);
+    SDL_Texture* volumeTexture = SDL_CreateTextureFromSurface(renderer, volumeSurface);
+    SDL_Rect volumeRect = { SCREEN_WIDTH / 2 - volumeSurface->w / 2, SCREEN_HEIGHT / 2 + 50, volumeSurface->w, volumeSurface->h };
+    SDL_RenderCopy(renderer, volumeTexture, NULL, &volumeRect);
+    SDL_FreeSurface(volumeSurface);
+    SDL_DestroyTexture(volumeTexture);
+
+    // Hiển thị nút trở lại
+    SDL_Surface* backSurface = TTF_RenderText_Solid(font, "Back", white);
+    SDL_Texture* backTexture = SDL_CreateTextureFromSurface(renderer, backSurface);
+    SDL_Rect backRect = { SCREEN_WIDTH / 2 - backSurface->w / 2, SCREEN_HEIGHT / 2 + 100, backSurface->w, backSurface->h };
+    SDL_RenderCopy(renderer, backTexture, NULL, &backRect);
+    SDL_FreeSurface(backSurface);
+    SDL_DestroyTexture(backTexture);
+
+    SDL_RenderPresent(renderer);
+}
+
+
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     IMG_Init(IMG_INIT_PNG);
@@ -149,114 +235,150 @@ int main(int argc, char* argv[]) {
     Uint32 reloadStartTime = 0;          
     const int RELOAD_TIME = 2000;         
 
-
+    bool isPaused = false;  // Biến lưu trạng thái tạm dừng
 
     while (running) {
-        Uint32 currentTime = SDL_GetTicks();  // Lấy thời gian hiện tại
-        elapsedTime = currentTime - startTime;  // Tính thời gian đã trôi qua
+        if (isPaused) {
+            renderPauseMenu(renderer, font);
 
-        int mouseX, mouseY;
-        SDL_GetMouseState(&mouseX, &mouseY);
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) running = false;
+            while (SDL_PollEvent(&e)) {
+                if (e.type == SDL_QUIT) running = false;
 
-            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && ammo > 0 && canShoot) {
-                float centerX = player.x + PLAYER_WIDTH / 2;
-                float centerY = player.y + PLAYER_HEIGHT / 2;
-                float angleRad = atan2(mouseY - centerY, mouseX - centerX);
-                float spawnX = centerX + cos(angleRad) * (PLAYER_HEIGHT / 2);
-                float spawnY = centerY + sin(angleRad) * (PLAYER_HEIGHT / 2);
-
-                bullets.emplace_back(bulletTex, spawnX, spawnY, mouseX, mouseY);
-                Mix_PlayChannel(-1, shootSound, 0);
-
-                ammo--;                            
-                if (ammo == 0) canShoot = false;   
-            }
-
-            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r && !reloading && ammo < 10) {
-                reloading = true;                            
-                reloadStartTime = SDL_GetTicks();            
-                canShoot = false;                            
-            }
-
-        }
-
-        const Uint8* keys = SDL_GetKeyboardState(NULL);
-        player.move(keys);
-
-        if (reloading && SDL_GetTicks() - reloadStartTime >= RELOAD_TIME) {
-            ammo = 10;
-            canShoot = true;
-            reloading = false;
-        }
-
-        for (auto& bullet : bullets) bullet.update();
-        bullets.erase(remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return b.offScreen(); }), bullets.end());
-
-        for (auto& enemy : enemies) enemy.moveToward(player);
-
-        for (auto it = bullets.begin(); it != bullets.end();) {
-            bool hit = false;
-            for (auto et = enemies.begin(); et != enemies.end();) {
-                if (checkCollision(&*it, &*et)) {
-                    Mix_PlayChannel(-1, hitSound, 0);
-                    score += 10;
-                    et = enemies.erase(et);
-                    it = bullets.erase(it);
-                    hit = true;
-                    break;
+                if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
+                    isPaused = false;  // Quay lại chơi
                 }
-                else ++et;
+
+                if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+                    int mouseX, mouseY;
+                    SDL_GetMouseState(&mouseX, &mouseY);
+
+                    // Kiểm tra nút "Continue"
+                    if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
+                        isPaused = false;  // Quay lại chơi
+                    }
+
+                    // Kiểm tra nút "Back to Main Menu"
+                    else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 50 && mouseY <= SCREEN_HEIGHT / 2 + 100) {
+                        running = false;  // Quay lại menu chính
+                    }
+
+                    // Kiểm tra nút "Display" để vào bảng điều khiển âm thanh
+                    else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 100 && mouseY <= SCREEN_HEIGHT / 2 + 150) {
+                        renderAudioSettings(renderer, font, music);  // Mở bảng điều chỉnh âm thanh
+                    }
+                }
             }
-            if (!hit) ++it;
+
+            SDL_Delay(16);
         }
+        else {
 
-        if (SDL_GetTicks() - lastSpawn > 1000) {
-            // Khởi tạo kẻ địch với các tham số x, y và texture
-            enemies.emplace_back(enemyTex, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
-            lastSpawn = SDL_GetTicks();
+            Uint32 currentTime = SDL_GetTicks();  // Lấy thời gian hiện tại
+            elapsedTime = currentTime - startTime;  // Tính thời gian đã trôi qua
+
+            int mouseX, mouseY;
+            SDL_GetMouseState(&mouseX, &mouseY);
+            while (SDL_PollEvent(&e)) {
+                if (e.type == SDL_QUIT) running = false;
+
+                if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && ammo > 0 && canShoot) {
+                    float centerX = player.x + PLAYER_WIDTH / 2;
+                    float centerY = player.y + PLAYER_HEIGHT / 2;
+                    float angleRad = atan2(mouseY - centerY, mouseX - centerX);
+                    float spawnX = centerX + cos(angleRad) * (PLAYER_HEIGHT / 2);
+                    float spawnY = centerY + sin(angleRad) * (PLAYER_HEIGHT / 2);
+
+                    bullets.emplace_back(bulletTex, spawnX, spawnY, mouseX, mouseY);
+                    Mix_PlayChannel(-1, shootSound, 0);
+
+                    ammo--;
+                    if (ammo == 0) canShoot = false;
+                }
+
+                if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r && !reloading && ammo < 10) {
+                    reloading = true;
+                    reloadStartTime = SDL_GetTicks();
+                    canShoot = false;
+                }
+
+            }
+
+            const Uint8* keys = SDL_GetKeyboardState(NULL);
+            player.move(keys);
+
+            if (reloading && SDL_GetTicks() - reloadStartTime >= RELOAD_TIME) {
+                ammo = 10;
+                canShoot = true;
+                reloading = false;
+            }
+
+            for (auto& bullet : bullets) bullet.update();
+            bullets.erase(remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return b.offScreen(); }), bullets.end());
+
+            for (auto& enemy : enemies) enemy.moveToward(player);
+
+            for (auto it = bullets.begin(); it != bullets.end();) {
+                bool hit = false;
+                for (auto et = enemies.begin(); et != enemies.end();) {
+                    if (checkCollision(&*it, &*et)) {
+                        Mix_PlayChannel(-1, hitSound, 0);
+                        score += 10;
+                        et = enemies.erase(et);
+                        it = bullets.erase(it);
+                        hit = true;
+                        break;
+                    }
+                    else ++et;
+                }
+                if (!hit) ++it;
+            }
+
+            if (SDL_GetTicks() - lastSpawn > 1000) {
+                // Khởi tạo kẻ địch với các tham số x, y và texture
+                enemies.emplace_back(enemyTex, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+                lastSpawn = SDL_GetTicks();
+            }
+
+
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer, background, NULL, NULL);
+
+            renderTime(renderer, font, elapsedTime);  // Hiển thị thời gian
+
+            player.render(renderer, mouseX, mouseY);
+            for (auto& enemy : enemies) enemy.render(renderer);
+            for (auto& bullet : bullets) bullet.render(renderer);
+
+            SDL_Color white = { 255, 255, 255 };
+            string status = "HP: " + to_string(player.hp) +
+                "  Score: " + to_string(score);
+
+            SDL_Surface* textSurface = TTF_RenderText_Solid(font, status.c_str(), white);
+            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+            SDL_Rect textRect = { 10, 10, textSurface->w, textSurface->h };
+            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+            SDL_FreeSurface(textSurface);
+            SDL_DestroyTexture(textTexture);
+
+            string ammoStatus = reloading ? "Reloading..." : "Ammo: " + to_string(ammo);
+            SDL_Surface* ammoSurface = TTF_RenderText_Solid(font, ammoStatus.c_str(), white);
+            SDL_Texture* ammoTexture = SDL_CreateTextureFromSurface(renderer, ammoSurface);
+
+            SDL_Rect ammoRect = {
+                SCREEN_WIDTH - ammoSurface->w - 20,
+                SCREEN_HEIGHT - ammoSurface->h - 20,
+                ammoSurface->w,
+                ammoSurface->h
+            };
+
+            SDL_RenderCopy(renderer, ammoTexture, NULL, &ammoRect);
+            SDL_FreeSurface(ammoSurface);
+            SDL_DestroyTexture(ammoTexture);
+
+
+            SDL_RenderPresent(renderer);
+            SDL_Delay(16);
         }
-
-
-        SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, background, NULL, NULL);
-
-        renderTime(renderer, font, elapsedTime);  // Hiển thị thời gian
-
-        player.render(renderer, mouseX, mouseY);
-        for (auto& enemy : enemies) enemy.render(renderer);
-        for (auto& bullet : bullets) bullet.render(renderer);
-
-        SDL_Color white = { 255, 255, 255 };
-        string status = "HP: " + to_string(player.hp) +
-            "  Score: " + to_string(score);
-
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, status.c_str(), white);
-        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-        SDL_Rect textRect = { 10, 10, textSurface->w, textSurface->h };
-        SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-        SDL_FreeSurface(textSurface);
-        SDL_DestroyTexture(textTexture);
-
-        string ammoStatus = reloading ? "Reloading..." : "Ammo: " + to_string(ammo);
-        SDL_Surface* ammoSurface = TTF_RenderText_Solid(font, ammoStatus.c_str(), white);
-        SDL_Texture* ammoTexture = SDL_CreateTextureFromSurface(renderer, ammoSurface);
-
-        SDL_Rect ammoRect = {
-            SCREEN_WIDTH - ammoSurface->w - 20,
-            SCREEN_HEIGHT - ammoSurface->h - 20,
-            ammoSurface->w,
-            ammoSurface->h
-        };
-
-        SDL_RenderCopy(renderer, ammoTexture, NULL, &ammoRect);
-        SDL_FreeSurface(ammoSurface);
-        SDL_DestroyTexture(ammoTexture);
-
-
-        SDL_RenderPresent(renderer);
-        SDL_Delay(16);
     }
 
     TTF_CloseFont(font);

@@ -1,7 +1,7 @@
 #pragma once
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_WIDTH = 1200;
+const int SCREEN_HEIGHT = 700;
 const int PLAYER_SPEED = 5;
 const int BULLET_SPEED = 6;
 const int ENEMY_SPEED = 2.5;
