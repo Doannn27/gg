@@ -1,5 +1,6 @@
 ﻿#include "fireenemy.h"
 #include "function.h"
+#include "globals.h"
 
 FireEnemy::FireEnemy(SDL_Texture* tex, float x, float y)
     : GameObject(tex, x, y, ENEMY_WIDTH, ENEMY_HEIGHT), hp(100)

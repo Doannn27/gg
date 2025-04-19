@@ -12,4 +12,3 @@ const int BULLET_HEIGHT = 22;
 const int ENEMY_WIDTH = 64;
 const int ENEMY_HEIGHT = 64;
 
-

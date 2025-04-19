@@ -3,9 +3,10 @@
 #include "player.h"
 #include "enemy.h"
 #include "fireenemy.h"
+#include "boss.h"
 #include "bullet.h"
 #include "utils.h"
-#include "constants.h"
+#include "globals.h"
 
 const char* PLAYER_IMAGE = "D:/SDLgame/SDLgame/assets/player/player.png";
 const char* ENEMY_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/ship4.png";
@@ -16,7 +17,7 @@ const char* HIT_SOUND = "D:/SDLgame/SDLgame/assets/hit.mp3";
 const char* BACKGROUND_MUSIC = "D:/SDLgame/SDLgame/assets/music.mp3";
 const char* FONT_PATH = "D:/SDLgame/SDLgame/assets/font/arial.ttf";
 const char* FIRE_ENEMY_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/ship_9.png";
-
+const char* BOSS_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/boss.png";
 
 SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     SDL_Surface* surface = IMG_Load(path);
@@ -43,7 +44,7 @@ void renderMenu(SDL_Renderer* renderer, TTF_Font* font) {
     // Hiển thị nút Start
     SDL_Surface* startSurface = TTF_RenderText_Solid(font, "Start Game", white);
     SDL_Texture* startTexture = SDL_CreateTextureFromSurface(renderer, startSurface);
-    SDL_Rect startRect = { SCREEN_WIDTH / 2 - startSurface->w / 2, SCREEN_HEIGHT / 2, startSurface->w, startSurface->h };
+    SDL_Rect startRect = { windowWidth / 2 - startSurface->w / 2, windowHeight / 2, startSurface->w, startSurface->h };
     SDL_RenderCopy(renderer, startTexture, NULL, &startRect);
     SDL_FreeSurface(startSurface);
     SDL_DestroyTexture(startTexture);
@@ -72,7 +73,7 @@ void renderTime(SDL_Renderer* renderer, TTF_Font* font, Uint32 elapsedTime) {
     // Tạo và hiển thị thời gian
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, timeStr.c_str(), white);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_Rect textRect = { SCREEN_WIDTH - textSurface->w - 10, 10, textSurface->w, textSurface->h };
+    SDL_Rect textRect = { windowWidth - textSurface->w - 10, 10, textSurface->w, textSurface->h };
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
@@ -195,332 +196,411 @@ void renderGameOverMenu(SDL_Renderer* renderer, TTF_Font* font) {
 }
 
 int main(int argc, char* argv[]) {
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-    IMG_Init(IMG_INIT_PNG);
-    TTF_Init();
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    bool keepPlaying = true;
 
-    SDL_Window* window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    while (keepPlaying) {
+        SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+        IMG_Init(IMG_INIT_PNG);
+        TTF_Init();
+        Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-    SDL_Texture* background = loadTexture(BACKGROUND_IMAGE, renderer);
-    SDL_Texture* playerTex = loadTexture(PLAYER_IMAGE, renderer);
-    SDL_Texture* enemyTex = loadTexture(ENEMY_IMAGE, renderer);
-    SDL_Texture* fireEnemyTex = loadTexture(FIRE_ENEMY_IMAGE, renderer);
-    SDL_Texture* bulletTex = loadTexture(BULLET_IMAGE, renderer);
+        SDL_Window* window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+        SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    Mix_Chunk* shootSound = Mix_LoadWAV(SHOOT_SOUND);
-    Mix_Chunk* hitSound = Mix_LoadWAV(HIT_SOUND);
-    Mix_Music* music = Mix_LoadMUS(BACKGROUND_MUSIC);
+        SDL_Texture* background = loadTexture(BACKGROUND_IMAGE, renderer);
+        SDL_Texture* playerTex = loadTexture(PLAYER_IMAGE, renderer);
+        SDL_Texture* enemyTex = loadTexture(ENEMY_IMAGE, renderer);
+        SDL_Texture* fireEnemyTex = loadTexture(FIRE_ENEMY_IMAGE, renderer);
+        SDL_Texture* bossTex = loadTexture(BOSS_IMAGE, renderer);
+        SDL_Texture* bulletTex = loadTexture(BULLET_IMAGE, renderer);
 
-    TTF_Font* font = TTF_OpenFont(FONT_PATH, 24);
-    if (!font) {
-        std::cerr << "❌ TTF_OpenFont failed: " << TTF_GetError() << std::endl;
-        return -1;
-    }
+        Mix_Chunk* shootSound = Mix_LoadWAV(SHOOT_SOUND);
+        Mix_Chunk* hitSound = Mix_LoadWAV(HIT_SOUND);
+        Mix_Music* music = Mix_LoadMUS(BACKGROUND_MUSIC);
 
-    bool showMenu = true;
-    SDL_Event e;
+        TTF_Font* font = TTF_OpenFont(FONT_PATH, 24);
+        if (!font) {
+            std::cerr << "❌ TTF_OpenFont failed: " << TTF_GetError() << std::endl;
+            return -1;
+        }
 
-    Uint32 startTime = SDL_GetTicks();  // Thời gian bắt đầu
-    Uint32 elapsedTime = 0;  // Thời gian đã trôi qua
+        bool showMenu = true;
+        SDL_Event e;
+        int windowWidth = SCREEN_WIDTH;
+        int windowHeight = SCREEN_HEIGHT;
 
-    while (showMenu) {
-        renderMenu(renderer, font);
 
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
-                showMenu = false;
+        Uint32 startTime = SDL_GetTicks();  // Thời gian bắt đầu
+        Uint32 elapsedTime = 0;  // Thời gian đã trôi qua
+
+        while (showMenu) {
+            renderMenu(renderer, font);
+
+            while (SDL_PollEvent(&e)) {
+                if (e.type == SDL_QUIT) {
+                    showMenu = false;
+                }
+                if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+                    int mouseX, mouseY;
+                    SDL_GetMouseState(&mouseX, &mouseY);
+
+                    // Kiểm tra nếu click vào nút Start
+                    if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
+                        showMenu = false;  // Bắt đầu trò chơi
+                    }
+                    // Kiểm tra nếu click vào nút Exit
+                    else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 50 && mouseY <= SCREEN_HEIGHT / 2 + 100) {
+                        showMenu = false;  // Thoát trò chơi
+                        SDL_Quit();
+                        return 0;
+                    }
+                }
             }
-            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+
+            SDL_Delay(16);
+        }
+
+
+        Player player(playerTex);
+        Boss* boss = nullptr;
+        vector<Enemy> enemies;
+        vector<Bullet> bullets;
+        vector<FireEnemy> fireEnemies;
+        vector<Bullet> enemyBullets;
+
+
+        Uint32 lastSpawn = SDL_GetTicks();
+        int score = 0;
+        int killCount = 0;
+        Mix_PlayMusic(music, -1);
+
+        bool running = true;
+
+        int ammo = 20;
+        bool canShoot = true;
+        bool reloading = false;
+        Uint32 reloadStartTime = 0;
+        Uint32 lastHitTime = 0;     // Thời điểm lần cuối bị trừ máu
+        const int HIT_COOLDOWN = 1000; // Khoảng thời gian miễn nhiễm (ms)
+        const int RELOAD_TIME = 2000;
+
+        bool isPaused = false;  // Biến lưu trạng thái tạm dừng
+
+        while (running) {
+            SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+
+            Uint32 now = SDL_GetTicks();
+            if (isPaused) {
+                renderPauseMenu(renderer, font);
+
+                while (SDL_PollEvent(&e)) {
+                    if (e.type == SDL_QUIT) running = false;
+
+                    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
+                        isPaused = false;  // Quay lại chơi
+                    }
+
+                    if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+                        int mouseX, mouseY;
+                        SDL_GetMouseState(&mouseX, &mouseY);
+
+                        // Kiểm tra nút "Continue"
+                        if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
+                            isPaused = false;  // Quay lại chơi
+                        }
+
+                        // Kiểm tra nút "Back to Main Menu"
+                        else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 50 && mouseY <= SCREEN_HEIGHT / 2 + 100) {
+                            running = false;  // Quay lại menu chính
+                        }
+
+                        // Kiểm tra nút "Display" để vào bảng điều khiển âm thanh
+                        else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 100 && mouseY <= SCREEN_HEIGHT / 2 + 150) {
+                            renderAudioSettings(renderer, font, music);  // Mở bảng điều chỉnh âm thanh
+                        }
+                    }
+                }
+
+                SDL_Delay(16);
+            }
+            else {
+
+                Uint32 currentTime = SDL_GetTicks();  // Lấy thời gian hiện tại
+                elapsedTime = currentTime - startTime;  // Tính thời gian đã trôi qua
+
                 int mouseX, mouseY;
                 SDL_GetMouseState(&mouseX, &mouseY);
+                while (SDL_PollEvent(&e)) {
+                    if (e.type == SDL_QUIT) running = false;
 
-                // Kiểm tra nếu click vào nút Start
-                if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
-                    showMenu = false;  // Bắt đầu trò chơi
+                    if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && ammo > 0 && canShoot) {
+                        float centerX = player.x + PLAYER_WIDTH / 2;
+                        float centerY = player.y + PLAYER_HEIGHT / 2;
+                        float dx = mouseX - centerX;
+                        float dy = mouseY - centerY;
+                        float distance = sqrt(dx * dx + dy * dy);
+
+                        if (distance > 5.0f) {  // Tránh bắn khi chuột quá gần (góc bắn không xác định)
+                            float angleRad = atan2(dy, dx);
+                            float spawnX = centerX + cos(angleRad) * (PLAYER_HEIGHT / 2);
+                            float spawnY = centerY + sin(angleRad) * (PLAYER_HEIGHT / 2);
+
+                            bullets.emplace_back(bulletTex, spawnX, spawnY, mouseX, mouseY);
+                            Mix_PlayChannel(-1, shootSound, 0);
+
+                            ammo--;
+                            if (ammo == 0) canShoot = false;
+                        }
+                    }
+
+                    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r && !reloading && ammo < 10) {
+                        reloading = true;
+                        reloadStartTime = SDL_GetTicks();
+                        canShoot = false;
+                    }
+
                 }
-                // Kiểm tra nếu click vào nút Exit
-                else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 50 && mouseY <= SCREEN_HEIGHT / 2 + 100) {
-                    showMenu = false;  // Thoát trò chơi
-                    SDL_Quit();
-                    return 0;
+
+                const Uint8* keys = SDL_GetKeyboardState(NULL);
+                player.move(keys, windowWidth, windowHeight);
+
+                if (reloading && SDL_GetTicks() - reloadStartTime >= RELOAD_TIME) {
+                    ammo = 20;
+                    canShoot = true;
+                    reloading = false;
                 }
+
+                for (auto& bullet : bullets) bullet.update();
+                bullets.erase(remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return b.offScreen(); }), bullets.end());
+
+                for (auto& bullet : enemyBullets) bullet.update();
+                enemyBullets.erase(remove_if(enemyBullets.begin(), enemyBullets.end(), [](Bullet& b) {return b.offScreen(); }), enemyBullets.end());
+
+                for (auto it = enemyBullets.begin(); it != enemyBullets.end();) {
+                    if (checkCollision(&*it, &player) && now - lastHitTime >= HIT_COOLDOWN) {
+                        player.hp -= 10;
+                        lastHitTime = now;
+                        it = enemyBullets.erase(it);
+
+                        if (player.hp <= 0) {
+                            running = false;
+                            break;
+                        }
+                    }
+                    else {
+                        ++it;
+                    }
+                }
+
+                for (auto& enemy : enemies) enemy.moveToward(player);
+
+                for (auto& fireEnemy : fireEnemies) {
+                    fireEnemy.moveToward(player);
+                    fireEnemy.updateAndShoot(enemyBullets, bulletTex, player);
+                }
+
+                if (boss) {
+                    boss->update(player.x + PLAYER_WIDTH / 2, player.y + PLAYER_HEIGHT / 2);
+                    boss->shoot(enemyBullets, bulletTex, player);
+                }   
+
+                for (auto& enemy : enemies) {
+                    if (checkCollision(&enemy, &player) && now - lastHitTime >= HIT_COOLDOWN) {
+                        if (boss && checkCollision(boss, &player) && now - lastHitTime >= HIT_COOLDOWN) {
+                            player.hp -= 20;
+                            lastHitTime = now;
+                        }
+                        player.hp -= 10;
+                        lastHitTime = now;
+
+                        if (player.hp <= 0) {
+                            running = false;  // Thoát game khi hết máu
+                            break;
+                        }
+                    }
+                }
+
+                for (auto it = bullets.begin(); it != bullets.end(); ) {
+                    bool erased = false;
+
+                    // Check vs normal enemies
+                    for (auto et = enemies.begin(); et != enemies.end(); ) {
+                        if (checkCollision(&*it, &*et)) {
+                            Mix_PlayChannel(-1, hitSound, 0);
+                            score += 10;
+                            killCount++;
+                            if (killCount % 20 == 0 && player.hp < 100) {
+                                player.hp += 10;
+                                if (player.hp > 100) player.hp = 100;
+                            }
+
+                            et = enemies.erase(et);
+                            it = bullets.erase(it);
+                            erased = true;
+                            break;
+                        }
+                        else ++et;
+                    }
+                    if (erased) continue;
+
+                    // Check vs fire enemies
+                    for (auto fet = fireEnemies.begin(); fet != fireEnemies.end(); ) {
+                        if (checkCollision(&*it, &*fet)) {
+                            Mix_PlayChannel(-1, hitSound, 0);
+                            score += 15;
+                            killCount++;
+                            if (killCount % 20 == 0 && player.hp < 100) {
+                                player.hp += 10;
+                                if (player.hp > 100) player.hp = 100;
+                            }
+
+                            fet = fireEnemies.erase(fet);
+                            it = bullets.erase(it);
+                            erased = true;
+                            break;
+                        }
+                        else ++fet;
+                    }
+                    if (erased) continue;
+
+                    // Check vs boss
+                    if (boss && checkCollision(&*it, boss)) {
+                        boss->hp -= 10;
+                        Mix_PlayChannel(-1, hitSound, 0);
+                        it = bullets.erase(it);
+                        if (boss->hp <= 0) {
+                            score += 100;
+                            killCount += 1;
+                            delete boss;
+                            boss = nullptr;
+                        }
+                        continue;
+                    }
+
+                    ++it;
+                }
+
+                if (SDL_GetTicks() - lastSpawn > 800) {
+                    if (rand() % 3 == 0) {
+                        fireEnemies.emplace_back(fireEnemyTex, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+                    }
+                    else {
+                        enemies.emplace_back(enemyTex, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+                    }
+                    lastSpawn = SDL_GetTicks();
+                }
+                if (killCount >= 60 && boss == nullptr) {
+                    if (player.hp < 90) {
+                        player.hp += 20;
+                    }
+                    else {
+                        if (player.hp == 90) player.hp += 10;
+                    }
+                    boss = new Boss(bossTex, SCREEN_WIDTH / 2 - 60, 0);
+                }
+
+                SDL_RenderClear(renderer);
+                SDL_RenderCopy(renderer, background, NULL, NULL);
+
+                renderTime(renderer, font, elapsedTime);  // Hiển thị thời gian
+
+                player.render(renderer, mouseX, mouseY);
+                for (auto& enemy : enemies) enemy.render(renderer);
+                for (auto& bullet : bullets) bullet.render(renderer);
+                for (auto& bullet : enemyBullets) bullet.render(renderer);
+                for (auto& fe : fireEnemies) fe.render(renderer);
+
+                if (boss) boss->render(renderer);
+
+                SDL_Color white = { 255, 255, 255 };
+                string status = "HP: " + to_string(player.hp) +
+                    "  Score: " + to_string(score) +
+                    "  Kill: " + to_string(killCount);
+
+                SDL_Surface* textSurface = TTF_RenderText_Solid(font, status.c_str(), white);
+                SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+                SDL_Rect textRect = { 10, 10, textSurface->w, textSurface->h };
+                SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+                SDL_FreeSurface(textSurface);
+                SDL_DestroyTexture(textTexture);
+
+                string ammoStatus = reloading ? "Reloading..." : "Ammo: " + to_string(ammo);
+                SDL_Surface* ammoSurface = TTF_RenderText_Solid(font, ammoStatus.c_str(), white);
+                SDL_Texture* ammoTexture = SDL_CreateTextureFromSurface(renderer, ammoSurface);
+
+                SDL_Rect ammoRect = {
+                    windowWidth - ammoSurface->w - 20,
+                    windowHeight - ammoSurface->h - 20,
+                    ammoSurface->w,
+                    ammoSurface->h
+                };
+
+                SDL_RenderCopy(renderer, ammoTexture, NULL, &ammoRect);
+                SDL_FreeSurface(ammoSurface);
+                SDL_DestroyTexture(ammoTexture);
+
+
+                SDL_RenderPresent(renderer);
+                SDL_Delay(16);
             }
         }
 
-        SDL_Delay(16);
-    }
-
-
-    Player player(playerTex);
-    vector<Enemy> enemies;
-    vector<Bullet> bullets;
-    vector<FireEnemy> fireEnemies;
-    vector<Bullet> enemyBullets;
-
-
-    Uint32 lastSpawn = SDL_GetTicks();
-    int score = 0;
-    Mix_PlayMusic(music, -1);
-
-    bool running = true;
-
-    int ammo = 10;
-    bool canShoot = true;
-    bool reloading = false;               
-    Uint32 reloadStartTime = 0;          
-    Uint32 lastHitTime = 0;     // Thời điểm lần cuối bị trừ máu
-    const int HIT_COOLDOWN = 1000; // Khoảng thời gian miễn nhiễm (ms)
-    const int RELOAD_TIME = 2000;         
-
-    bool isPaused = false;  // Biến lưu trạng thái tạm dừng
-
-    while (running) {
-        Uint32 now = SDL_GetTicks();
-        if (isPaused) {
-            renderPauseMenu(renderer, font);
+        // ===== HIỆN MENU GAME OVER =====
+        bool gameOverMenu = true;
+        while (gameOverMenu) {
+            renderGameOverMenu(renderer, font);
 
             while (SDL_PollEvent(&e)) {
-                if (e.type == SDL_QUIT) running = false;
+                if (e.type == SDL_QUIT) {
+                    gameOverMenu = false;
+                }
 
+                // Nhấn ESC để thoát khỏi full màn hình
                 if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
-                    isPaused = false;  // Quay lại chơi
+                    Uint32 flags = SDL_GetWindowFlags(window);
+                    if (flags & SDL_WINDOW_FULLSCREEN || flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
+                        SDL_SetWindowFullscreen(window, 0); // Thoát full màn hình
+                    }
+                    else {
+                        gameOverMenu = false; // Nếu không phải full thì thoát menu
+                    }
                 }
 
                 if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
                     int mouseX, mouseY;
                     SDL_GetMouseState(&mouseX, &mouseY);
 
-                    // Kiểm tra nút "Continue"
-                    if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
-                        isPaused = false;  // Quay lại chơi
+                    // Nút "Play Again"
+                    if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 &&
+                        mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
+                        main(argc, argv); // Chơi lại bằng cách gọi lại main
+                        return 0;
                     }
 
-                    // Kiểm tra nút "Back to Main Menu"
-                    else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 50 && mouseY <= SCREEN_HEIGHT / 2 + 100) {
-                        running = false;  // Quay lại menu chính
-                    }
-
-                    // Kiểm tra nút "Display" để vào bảng điều khiển âm thanh
-                    else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 100 && mouseY <= SCREEN_HEIGHT / 2 + 150) {
-                        renderAudioSettings(renderer, font, music);  // Mở bảng điều chỉnh âm thanh
+                    // Nút "Exit"
+                    if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 &&
+                        mouseY >= SCREEN_HEIGHT / 2 + 60 && mouseY <= SCREEN_HEIGHT / 2 + 110) {
+                        gameOverMenu = false;
                     }
                 }
             }
 
             SDL_Delay(16);
         }
-        else {
-
-            Uint32 currentTime = SDL_GetTicks();  // Lấy thời gian hiện tại
-            elapsedTime = currentTime - startTime;  // Tính thời gian đã trôi qua
-
-            int mouseX, mouseY;
-            SDL_GetMouseState(&mouseX, &mouseY);
-            while (SDL_PollEvent(&e)) {
-                if (e.type == SDL_QUIT) running = false;
-
-                if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && ammo > 0 && canShoot) {
-                    float centerX = player.x + PLAYER_WIDTH / 2;
-                    float centerY = player.y + PLAYER_HEIGHT / 2;
-                    float angleRad = atan2(mouseY - centerY, mouseX - centerX);
-                    float spawnX = centerX + cos(angleRad) * (PLAYER_HEIGHT / 2);
-                    float spawnY = centerY + sin(angleRad) * (PLAYER_HEIGHT / 2);
-
-                    bullets.emplace_back(bulletTex, spawnX, spawnY, mouseX, mouseY);
-                    Mix_PlayChannel(-1, shootSound, 0);
-
-                    ammo--;
-                    if (ammo == 0) canShoot = false;
-                }
-
-                if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r && !reloading && ammo < 10) {
-                    reloading = true;
-                    reloadStartTime = SDL_GetTicks();
-                    canShoot = false;
-                }
-
-            }
-
-            const Uint8* keys = SDL_GetKeyboardState(NULL);
-            player.move(keys);
-
-            if (reloading && SDL_GetTicks() - reloadStartTime >= RELOAD_TIME) {
-                ammo = 10;
-                canShoot = true;
-                reloading = false;
-            }
-
-            for (auto& bullet : bullets) bullet.update();
-            bullets.erase(remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return b.offScreen(); }), bullets.end());
-
-            for (auto& bullet : enemyBullets) bullet.update();
-            enemyBullets.erase(remove_if(enemyBullets.begin(), enemyBullets.end(), [](Bullet& b) {return b.offScreen(); }), enemyBullets.end());
-
-            for (auto it = enemyBullets.begin(); it != enemyBullets.end();) {
-                if (checkCollision(&*it, &player) && now - lastHitTime >= HIT_COOLDOWN) {
-                    player.hp -= 10;
-                    lastHitTime = now;
-                    it = enemyBullets.erase(it);
-
-                    if (player.hp <= 0) {
-                        running = false;
-                        break;
-                    }
-                }
-                else {
-                    ++it;
-                }
-            }
-
-            for (auto& enemy : enemies) enemy.moveToward(player);
-
-            for (auto& fireEnemy : fireEnemies) {
-                fireEnemy.moveToward(player);
-                fireEnemy.updateAndShoot(enemyBullets, bulletTex, player);
-            }
-
-            for (auto& enemy : enemies) {
-                if (checkCollision(&enemy, &player) && now - lastHitTime >= HIT_COOLDOWN) {
-                    player.hp -= 10;
-                    lastHitTime = now;
-
-                    if (player.hp <= 0) {
-                        running = false;  // Thoát game khi hết máu
-                        break;
-                    }
-                }
-            }
-
-            for (auto it = bullets.begin(); it != bullets.end();) {
-                bool hit = false;
-                for (auto et = enemies.begin(); et != enemies.end();) {
-                    if (checkCollision(&*it, &*et)) {
-                        Mix_PlayChannel(-1, hitSound, 0);
-                        score += 10;
-                        et = enemies.erase(et);
-                        it = bullets.erase(it);
-                        hit = true;
-                        break;
-                    }
-                    else ++et;
-                }
-                if (!hit) ++it;
-            }
-
-            for (auto it = bullets.begin(); it != bullets.end();) {
-                bool hit = false;
-                for (auto fet = fireEnemies.begin(); fet != fireEnemies.end();) {
-                    if (checkCollision(&*it, &*fet)) {
-                        Mix_PlayChannel(-1, hitSound, 0);
-                        score += 15; // bạn có thể cho điểm cao hơn vì khó hơn
-                        fet = fireEnemies.erase(fet);
-                        it = bullets.erase(it);
-                        hit = true;
-                        break;
-                    }
-                    else ++fet;
-                }
-                if (!hit) ++it;
-            }
-
-            if (SDL_GetTicks() - lastSpawn > 700) {
-                if (rand() % 3 == 0) {
-                    fireEnemies.emplace_back(fireEnemyTex, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
-                }
-                else {
-                    enemies.emplace_back(enemyTex, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
-                }
-                lastSpawn = SDL_GetTicks();
-            }
-
-            SDL_RenderClear(renderer);
-            SDL_RenderCopy(renderer, background, NULL, NULL);
-
-            renderTime(renderer, font, elapsedTime);  // Hiển thị thời gian
-
-            player.render(renderer, mouseX, mouseY);
-            for (auto& enemy : enemies) enemy.render(renderer);
-            for (auto& bullet : bullets) bullet.render(renderer);
-            for (auto& bullet : enemyBullets) bullet.render(renderer);
-            for (auto& fe : fireEnemies) fe.render(renderer);
-
-            SDL_Color white = { 255, 255, 255 };
-            string status = "HP: " + to_string(player.hp) +
-                "  Score: " + to_string(score);
-
-            SDL_Surface* textSurface = TTF_RenderText_Solid(font, status.c_str(), white);
-            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-            SDL_Rect textRect = { 10, 10, textSurface->w, textSurface->h };
-            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-            SDL_FreeSurface(textSurface);
-            SDL_DestroyTexture(textTexture);
-
-            string ammoStatus = reloading ? "Reloading..." : "Ammo: " + to_string(ammo);
-            SDL_Surface* ammoSurface = TTF_RenderText_Solid(font, ammoStatus.c_str(), white);
-            SDL_Texture* ammoTexture = SDL_CreateTextureFromSurface(renderer, ammoSurface);
-
-            SDL_Rect ammoRect = {
-                SCREEN_WIDTH - ammoSurface->w - 20,
-                SCREEN_HEIGHT - ammoSurface->h - 20,
-                ammoSurface->w,
-                ammoSurface->h
-            };
-
-            SDL_RenderCopy(renderer, ammoTexture, NULL, &ammoRect);
-            SDL_FreeSurface(ammoSurface);
-            SDL_DestroyTexture(ammoTexture);
 
 
-            SDL_RenderPresent(renderer);
-            SDL_Delay(16);
-        }
+        TTF_CloseFont(font);
+        Mix_FreeChunk(shootSound);
+        Mix_FreeChunk(hitSound);
+        Mix_FreeMusic(music);
+        SDL_DestroyTexture(background);
+        SDL_DestroyTexture(playerTex);
+        SDL_DestroyTexture(enemyTex);
+        SDL_DestroyTexture(bulletTex);
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        Mix_CloseAudio();
     }
-
-    // ===== HIỆN MENU GAME OVER =====
-    bool gameOverMenu = true;
-    while (gameOverMenu) {
-        renderGameOverMenu(renderer, font);
-
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
-                gameOverMenu = false;
-            }
-
-            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
-                int mouseX, mouseY;
-                SDL_GetMouseState(&mouseX, &mouseY);
-
-                // Nút "Play Again"
-                if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 &&
-                    mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
-                    main(argc, argv); // Chơi lại bằng cách gọi lại main
-                    return 0;
-                }
-
-                // Nút "Exit"
-                if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 &&
-                    mouseY >= SCREEN_HEIGHT / 2 + 60 && mouseY <= SCREEN_HEIGHT / 2 + 110) {
-                    gameOverMenu = false;
-                }
-            }
-        }
-
-        SDL_Delay(16);
-    }
-
-    TTF_CloseFont(font);
-    Mix_FreeChunk(shootSound);
-    Mix_FreeChunk(hitSound);
-    Mix_FreeMusic(music);
-    SDL_DestroyTexture(background);
-    SDL_DestroyTexture(playerTex);
-    SDL_DestroyTexture(enemyTex);
-    SDL_DestroyTexture(bulletTex);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    Mix_CloseAudio();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

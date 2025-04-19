@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "globals.h"
 
 bool checkCollision(GameObject* a, GameObject* b) {
     SDL_Rect ra = a->getRect();

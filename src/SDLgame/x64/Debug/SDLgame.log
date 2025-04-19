@@ -2,14 +2,14 @@
 D:\SDLgame\SDLgame\src\constants.h(7,25): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   (compiling source file 'main.cpp')
   
-D:\SDLgame\SDLgame\src\main.cpp(218,22): warning C4566: character represented by universal-character-name '\u274C' cannot be represented in the current code page (1252)
+D:\SDLgame\SDLgame\src\main.cpp(223,26): warning C4566: character represented by universal-character-name '\u274C' cannot be represented in the current code page (1252)
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\xmemory(732,103): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   (compiling source file 'main.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\xmemory(732,103):
       the template instantiation context (the oldest one first) is
-          D:\SDLgame\SDLgame\src\main.cpp(331,29):
+          D:\SDLgame\SDLgame\src\main.cpp(348,37):
           see reference to function template instantiation 'void std::vector<Bullet,std::allocator<Bullet>>::emplace_back<SDL_Texture*&,float&,float&,int&,int&>(SDL_Texture *&,float &,float &,int &,int &)' being compiled
-              D:\SDLgame\SDLgame\src\main.cpp(331,41):
+              D:\SDLgame\SDLgame\src\main.cpp(348,49):
               see the first reference to 'std::vector<Bullet,std::allocator<Bullet>>::emplace_back' in 'SDL_main'
           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\vector(909,24):
           see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<SDL_Texture*&,float&,float&,int&,int&>(SDL_Texture *&,float &,float &,int &,int &)' being compiled
@@ -40,9 +40,9 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.3480
   (compiling source file 'main.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\xmemory(732,103):
       the template instantiation context (the oldest one first) is
-          D:\SDLgame\SDLgame\src\main.cpp(430,33):
+          D:\SDLgame\SDLgame\src\main.cpp(485,37):
           see reference to function template instantiation 'void std::vector<FireEnemy,std::allocator<FireEnemy>>::emplace_back<SDL_Texture*&,int,int>(SDL_Texture *&,int &&,int &&)' being compiled
-              D:\SDLgame\SDLgame\src\main.cpp(430,45):
+              D:\SDLgame\SDLgame\src\main.cpp(485,49):
               see the first reference to 'std::vector<FireEnemy,std::allocator<FireEnemy>>::emplace_back' in 'SDL_main'
           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\vector(909,24):
           see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<SDL_Texture*&,int,int>(SDL_Texture *&,int &&,int &&)' being compiled

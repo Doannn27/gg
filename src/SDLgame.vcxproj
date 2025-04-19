@@ -130,21 +130,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="boss.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="fireenemy.cpp" />
     <ClCompile Include="function.cpp" />
+    <ClCompile Include="globals.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="boss.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="fireenemy.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="gameobject.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿#include "function.h"
 #include "bullet.h"
 #include "constants.h"
+#include "globals.h"
 
 // Constructor: spawn tại tâm mũi tàu → phải trừ nửa kích thước
 Bullet::Bullet(SDL_Texture* tex, float sx, float sy, float tx, float ty)
@@ -25,8 +26,8 @@ void Bullet::render(SDL_Renderer* renderer) {
 }
 
 bool Bullet::offScreen() {
-    return x < -rect.w || x > SCREEN_WIDTH + rect.w ||
-        y < -rect.h || y > SCREEN_HEIGHT + rect.h;
+    return x < -rect.w || x > windowWidth + rect.w ||
+        y < -rect.h || y > windowHeight + rect.h;
 }
 
 // Hàm trả về hitbox chính xác cho va chạm
