@@ -7,6 +7,26 @@
       "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\fireenemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:fireenemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\fireenemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:fireenemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\gameobject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:gameobject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -15,16 +35,8 @@
       "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\gameobject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:gameobject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -33,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\bullet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:bullet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|solutionrelative:bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{79246730-E72C-4579-A0F7-D337F47DF34E}|SDLgame.vcxproj|D:\\SDLgame\\SDLgame\\src\\player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -64,7 +72,7 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "D:\\SDLgame\\SDLgame\\src\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAHgBAAAAAAAAAAAgwIkBAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAOcBAAAAAAAAAAAgwA8CAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-11T17:25:39.796Z",
               "IsPinned": true,
@@ -72,19 +80,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "player.h",
-              "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\player.h",
-              "RelativeDocumentMoniker": "player.h",
-              "ToolTip": "D:\\SDLgame\\SDLgame\\src\\player.h",
-              "RelativeToolTip": "player.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-14T13:08:40.706Z"
+              "DocumentIndex": 4,
+              "Title": "fireenemy.cpp",
+              "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\fireenemy.cpp",
+              "RelativeDocumentMoniker": "fireenemy.cpp",
+              "ToolTip": "D:\\SDLgame\\SDLgame\\src\\fireenemy.cpp",
+              "RelativeToolTip": "fireenemy.cpp",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-19T09:29:12.006Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
+              "Title": "fireenemy.h",
+              "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\fireenemy.h",
+              "RelativeDocumentMoniker": "fireenemy.h",
+              "ToolTip": "D:\\SDLgame\\SDLgame\\src\\fireenemy.h",
+              "RelativeToolTip": "fireenemy.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-04-19T09:27:48.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "player.cpp",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\player.cpp",
               "RelativeDocumentMoniker": "player.cpp",
@@ -96,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "function.h",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\function.h",
               "RelativeDocumentMoniker": "function.h",
@@ -109,19 +131,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "bullet.cpp",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\bullet.cpp",
               "RelativeDocumentMoniker": "bullet.cpp",
               "ToolTip": "D:\\SDLgame\\SDLgame\\src\\bullet.cpp",
               "RelativeToolTip": "bullet.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-13T09:42:27.106Z"
+              "WhenOpened": "2025-04-13T09:42:27.106Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "bullet.h",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\bullet.h",
               "RelativeDocumentMoniker": "bullet.h",
@@ -133,20 +156,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "constants.h",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\constants.h",
               "RelativeDocumentMoniker": "constants.h",
               "ToolTip": "D:\\SDLgame\\SDLgame\\src\\constants.h",
               "RelativeToolTip": "constants.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-04-12T07:29:21.358Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "enemy.h",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\enemy.h",
               "RelativeDocumentMoniker": "enemy.h",
@@ -154,34 +177,45 @@
               "RelativeToolTip": "enemy.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-12T07:17:54.065Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T07:17:54.065Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "enemy.cpp",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\enemy.cpp",
               "RelativeDocumentMoniker": "enemy.cpp",
               "ToolTip": "D:\\SDLgame\\SDLgame\\src\\enemy.cpp",
               "RelativeToolTip": "enemy.cpp",
-              "ViewState": "AgIAAAsAAAAAAAAAAAApwB8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-12T07:18:05.18Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "gameobject.h",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\gameobject.h",
               "RelativeDocumentMoniker": "gameobject.h",
               "ToolTip": "D:\\SDLgame\\SDLgame\\src\\gameobject.h",
               "RelativeToolTip": "gameobject.h",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAgwCIAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-04-12T07:18:00.675Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "player.h",
+              "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\player.h",
+              "RelativeDocumentMoniker": "player.h",
+              "ToolTip": "D:\\SDLgame\\SDLgame\\src\\player.h",
+              "RelativeToolTip": "player.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-04-14T13:08:40.706Z"
             }
           ]
         }
