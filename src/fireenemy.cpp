@@ -20,7 +20,7 @@ void FireEnemy::moveToward(const Player& player) {
     this->rotation = angle * 180.0f / M_PI;
 }
 
-void FireEnemy::updateAndShoot(std::vector<Bullet>& enemyBullets, SDL_Texture* bulletTex, const Player& player) {
+void FireEnemy::updateAndShoot(vector<Bullet>& enemyBullets, SDL_Texture* bulletTex, const Player& player) {
     Uint32 now = SDL_GetTicks();
     if (now - lastFireTime >= fireInterval) {
         SDL_Rect r = getRect();

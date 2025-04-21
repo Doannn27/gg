@@ -13,5 +13,5 @@ public:
     FireEnemy(SDL_Texture* tex, float x, float y);
 
     void moveToward(const Player& player);
-    void updateAndShoot(std::vector<Bullet>& enemyBullets, SDL_Texture* bulletTex, const Player& player);
+    void updateAndShoot(vector<Bullet>& enemyBullets, SDL_Texture* bulletTex, const Player& player);
 };

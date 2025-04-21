@@ -14,10 +14,12 @@ const char* BULLET_IMAGE = "D:/SDLgame/SDLgame/assets/player/bullet.png";
 const char* BACKGROUND_IMAGE = "D:/SDLgame/SDLgame/assets/background.jpg";
 const char* SHOOT_SOUND = "D:/SDLgame/SDLgame/assets/shoot.mp3";
 const char* HIT_SOUND = "D:/SDLgame/SDLgame/assets/hit.mp3";
-const char* BACKGROUND_MUSIC = "D:/SDLgame/SDLgame/assets/music.mp3";
+const char* BACKGROUND_MUSIC = "D:/SDLgame/SDLgame/assets/space.mp3";
 const char* FONT_PATH = "D:/SDLgame/SDLgame/assets/font/arial.ttf";
 const char* FIRE_ENEMY_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/ship_9.png";
 const char* BOSS_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/boss.png";
+const char* MENU_IMAGE = "D:/SDLgame/SDLgame/assets/menu.jpg";
+const char* GAME_MUSIC = "D:/SDLgame/SDLgame/assets/space-wind.mp3";
 
 SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     SDL_Surface* surface = IMG_Load(path);
@@ -27,20 +29,17 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     return texture;
 }
 
-void renderMenu(SDL_Renderer* renderer, TTF_Font* font) {
+void renderMenu(SDL_Renderer* renderer, TTF_Font* font, int windowWidth, int windowHeight) {
     SDL_Color white = { 255, 255, 255 };
-
     // Tạo màn hình nền
     SDL_RenderClear(renderer);
-
     // Hiển thị tiêu đề
-    SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "My SDL Game", white);
+    SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Try to Win", white);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
     SDL_Rect titleRect = { SCREEN_WIDTH / 2 - titleSurface->w / 2, SCREEN_HEIGHT / 4, titleSurface->w, titleSurface->h };
     SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
     SDL_FreeSurface(titleSurface);
     SDL_DestroyTexture(titleTexture);
-
     // Hiển thị nút Start
     SDL_Surface* startSurface = TTF_RenderText_Solid(font, "Start Game", white);
     SDL_Texture* startTexture = SDL_CreateTextureFromSurface(renderer, startSurface);
@@ -48,7 +47,6 @@ void renderMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderCopy(renderer, startTexture, NULL, &startRect);
     SDL_FreeSurface(startSurface);
     SDL_DestroyTexture(startTexture);
-
     // Hiển thị nút Exit
     SDL_Surface* exitSurface = TTF_RenderText_Solid(font, "Exit", white);
     SDL_Texture* exitTexture = SDL_CreateTextureFromSurface(renderer, exitSurface);
@@ -60,16 +58,13 @@ void renderMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderPresent(renderer);
 }
 
-void renderTime(SDL_Renderer* renderer, TTF_Font* font, Uint32 elapsedTime) {
+void renderTime(SDL_Renderer* renderer, TTF_Font* font, Uint32 elapsedTime, int windowWidth) {
     SDL_Color white = { 255, 255, 255 };
-
     // Chuyển thời gian thành chuỗi
     int seconds = (elapsedTime / 1000) % 60;
     int minutes = (elapsedTime / 60000) % 60;
     int hours = (elapsedTime / 3600000);
-
     string timeStr = "Time: " + to_string(hours) + ":" + (minutes < 10 ? "0" : "") + to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + to_string(seconds);
-
     // Tạo và hiển thị thời gian
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, timeStr.c_str(), white);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -81,10 +76,8 @@ void renderTime(SDL_Renderer* renderer, TTF_Font* font, Uint32 elapsedTime) {
 
 void renderPauseMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_Color white = { 255, 255, 255 };
-
     // Tạo màn hình nền cho menu pause
     SDL_RenderClear(renderer);
-
     // Hiển thị tiêu đề
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Pause Menu", white);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
@@ -92,7 +85,6 @@ void renderPauseMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
     SDL_FreeSurface(titleSurface);
     SDL_DestroyTexture(titleTexture);
-
     // Hiển thị nút "Tiếp tục"
     SDL_Surface* resumeSurface = TTF_RenderText_Solid(font, "Continue", white);
     SDL_Texture* resumeTexture = SDL_CreateTextureFromSurface(renderer, resumeSurface);
@@ -100,7 +92,6 @@ void renderPauseMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderCopy(renderer, resumeTexture, NULL, &resumeRect);
     SDL_FreeSurface(resumeSurface);
     SDL_DestroyTexture(resumeTexture);
-
     // Hiển thị nút "Trở về màn hình ban đầu"
     SDL_Surface* exitMenuSurface = TTF_RenderText_Solid(font, "Back to Main Menu", white);
     SDL_Texture* exitMenuTexture = SDL_CreateTextureFromSurface(renderer, exitMenuSurface);
@@ -108,7 +99,6 @@ void renderPauseMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderCopy(renderer, exitMenuTexture, NULL, &exitMenuRect);
     SDL_FreeSurface(exitMenuSurface);
     SDL_DestroyTexture(exitMenuTexture);
-
     // Hiển thị nút "Display"
     SDL_Surface* displaySurface = TTF_RenderText_Solid(font, "Display", white);
     SDL_Texture* displayTexture = SDL_CreateTextureFromSurface(renderer, displaySurface);
@@ -116,16 +106,12 @@ void renderPauseMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderCopy(renderer, displayTexture, NULL, &displayRect);
     SDL_FreeSurface(displaySurface);
     SDL_DestroyTexture(displayTexture);
-
     SDL_RenderPresent(renderer);
 }
 
 void renderAudioSettings(SDL_Renderer* renderer, TTF_Font* font, Mix_Music* music) {
     SDL_Color white = { 255, 255, 255 };
-
-    // Tạo màn hình nền cho bảng điều chỉnh âm thanh
     SDL_RenderClear(renderer);
-
     // Hiển thị tiêu đề
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Audio Settings", white);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
@@ -133,7 +119,6 @@ void renderAudioSettings(SDL_Renderer* renderer, TTF_Font* font, Mix_Music* musi
     SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
     SDL_FreeSurface(titleSurface);
     SDL_DestroyTexture(titleTexture);
-
     // Hiển thị nút tắt hoặc bật nhạc
     string audioStatus = Mix_PlayingMusic() ? "Music: ON" : "Music: OFF";
     SDL_Surface* audioSurface = TTF_RenderText_Solid(font, audioStatus.c_str(), white);
@@ -142,17 +127,15 @@ void renderAudioSettings(SDL_Renderer* renderer, TTF_Font* font, Mix_Music* musi
     SDL_RenderCopy(renderer, audioTexture, NULL, &audioRect);
     SDL_FreeSurface(audioSurface);
     SDL_DestroyTexture(audioTexture);
-
     // Hiển thị nút điều chỉnh âm lượng
     int volume = Mix_VolumeMusic(-1);
-    string volumeText = "Volume: " + std::to_string(volume);
+    string volumeText = "Volume: " + to_string(volume);
     SDL_Surface* volumeSurface = TTF_RenderText_Solid(font, volumeText.c_str(), white);
     SDL_Texture* volumeTexture = SDL_CreateTextureFromSurface(renderer, volumeSurface);
     SDL_Rect volumeRect = { SCREEN_WIDTH / 2 - volumeSurface->w / 2, SCREEN_HEIGHT / 2 + 50, volumeSurface->w, volumeSurface->h };
     SDL_RenderCopy(renderer, volumeTexture, NULL, &volumeRect);
     SDL_FreeSurface(volumeSurface);
     SDL_DestroyTexture(volumeTexture);
-
     // Hiển thị nút trở lại
     SDL_Surface* backSurface = TTF_RenderText_Solid(font, "Back", white);
     SDL_Texture* backTexture = SDL_CreateTextureFromSurface(renderer, backSurface);
@@ -167,7 +150,6 @@ void renderAudioSettings(SDL_Renderer* renderer, TTF_Font* font, Mix_Music* musi
 void renderGameOverMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_Color white = { 255, 255, 255 };
     SDL_RenderClear(renderer);
-
     // Tiêu đề Game Over
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "GAME OVER", white);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
@@ -175,7 +157,6 @@ void renderGameOverMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
     SDL_FreeSurface(titleSurface);
     SDL_DestroyTexture(titleTexture);
-
     // Nút Replay
     SDL_Surface* replaySurface = TTF_RenderText_Solid(font, "Play Again", white);
     SDL_Texture* replayTexture = SDL_CreateTextureFromSurface(renderer, replaySurface);
@@ -183,7 +164,6 @@ void renderGameOverMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_RenderCopy(renderer, replayTexture, NULL, &replayRect);
     SDL_FreeSurface(replaySurface);
     SDL_DestroyTexture(replayTexture);
-
     // Nút Exit
     SDL_Surface* exitSurface = TTF_RenderText_Solid(font, "Exit", white);
     SDL_Texture* exitTexture = SDL_CreateTextureFromSurface(renderer, exitSurface);
@@ -193,6 +173,15 @@ void renderGameOverMenu(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_DestroyTexture(exitTexture);
 
     SDL_RenderPresent(renderer);
+}
+
+void renderLoadingScreen(SDL_Renderer* renderer) {
+    SDL_Texture* loadingTex = loadTexture(MENU_IMAGE, renderer);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, loadingTex, NULL, NULL);
+    SDL_RenderPresent(renderer);
+    SDL_DestroyTexture(loadingTex);
+    SDL_Delay(2000); // Hiển thị trong 2 giây
 }
 
 int main(int argc, char* argv[]) {
@@ -216,11 +205,18 @@ int main(int argc, char* argv[]) {
 
         Mix_Chunk* shootSound = Mix_LoadWAV(SHOOT_SOUND);
         Mix_Chunk* hitSound = Mix_LoadWAV(HIT_SOUND);
-        Mix_Music* music = Mix_LoadMUS(BACKGROUND_MUSIC);
+        Mix_Music* menuMusic = Mix_LoadMUS(BACKGROUND_MUSIC);
+        Mix_Music* gameMusic = Mix_LoadMUS(GAME_MUSIC);
+        if (!menuMusic) {
+            cerr << "[ERROR] Failed to load menu music: " << Mix_GetError() << endl;
+        }
+        if (!gameMusic) {
+            cerr << "[ERROR] Failed to load game music: " << Mix_GetError() << endl;
+        }
 
         TTF_Font* font = TTF_OpenFont(FONT_PATH, 24);
         if (!font) {
-            std::cerr << "❌ TTF_OpenFont failed: " << TTF_GetError() << std::endl;
+            cerr << "[ERROR] TTF_OpenFont failed: " << TTF_GetError() << endl;
             return -1;
         }
 
@@ -232,9 +228,11 @@ int main(int argc, char* argv[]) {
 
         Uint32 startTime = SDL_GetTicks();  // Thời gian bắt đầu
         Uint32 elapsedTime = 0;  // Thời gian đã trôi qua
+        renderLoadingScreen(renderer);  // Hiển thị ảnh chờ trước khi vào menu
+        Mix_PlayMusic(menuMusic, -1);
 
         while (showMenu) {
-            renderMenu(renderer, font);
+            renderMenu(renderer, font, windowWidth, windowHeight);
 
             while (SDL_PollEvent(&e)) {
                 if (e.type == SDL_QUIT) {
@@ -247,6 +245,8 @@ int main(int argc, char* argv[]) {
                     // Kiểm tra nếu click vào nút Start
                     if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 && mouseY <= SCREEN_HEIGHT / 2 + 50) {
                         showMenu = false;  // Bắt đầu trò chơi
+                        Mix_HaltMusic();              // Dừng nhạc menu
+                        Mix_PlayMusic(gameMusic, -1); // Bắt đầu nhạc game
                     }
                     // Kiểm tra nếu click vào nút Exit
                     else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 50 && mouseY <= SCREEN_HEIGHT / 2 + 100) {
@@ -272,7 +272,6 @@ int main(int argc, char* argv[]) {
         Uint32 lastSpawn = SDL_GetTicks();
         int score = 0;
         int killCount = 0;
-        Mix_PlayMusic(music, -1);
 
         bool running = true;
 
@@ -316,7 +315,7 @@ int main(int argc, char* argv[]) {
 
                         // Kiểm tra nút "Display" để vào bảng điều khiển âm thanh
                         else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 && mouseY >= SCREEN_HEIGHT / 2 + 100 && mouseY <= SCREEN_HEIGHT / 2 + 150) {
-                            renderAudioSettings(renderer, font, music);  // Mở bảng điều chỉnh âm thanh
+                            renderAudioSettings(renderer, font, gameMusic);  // Mở bảng điều chỉnh âm thanh
                         }
                     }
                 }
@@ -353,7 +352,7 @@ int main(int argc, char* argv[]) {
                         }
                     }
 
-                    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r && !reloading && ammo < 10) {
+                    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r && !reloading && ammo < 20) {
                         reloading = true;
                         reloadStartTime = SDL_GetTicks();
                         canShoot = false;
@@ -502,7 +501,7 @@ int main(int argc, char* argv[]) {
                 SDL_RenderClear(renderer);
                 SDL_RenderCopy(renderer, background, NULL, NULL);
 
-                renderTime(renderer, font, elapsedTime);  // Hiển thị thời gian
+                renderTime(renderer, font, elapsedTime, windowWidth);  // Hiển thị thời gian
 
                 player.render(renderer, mouseX, mouseY);
                 for (auto& enemy : enemies) enemy.render(renderer);
@@ -588,11 +587,8 @@ int main(int argc, char* argv[]) {
             SDL_Delay(16);
         }
 
-
         TTF_CloseFont(font);
-        Mix_FreeChunk(shootSound);
-        Mix_FreeChunk(hitSound);
-        Mix_FreeMusic(music);
+        Mix_FreeMusic(gameMusic);
         SDL_DestroyTexture(background);
         SDL_DestroyTexture(playerTex);
         SDL_DestroyTexture(enemyTex);
@@ -600,6 +596,16 @@ int main(int argc, char* argv[]) {
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         Mix_CloseAudio();
+        if (shootSound) { Mix_FreeChunk(shootSound); shootSound = nullptr; }
+        if (hitSound) { Mix_FreeChunk(hitSound); hitSound = nullptr; }
+        if (gameMusic) {
+            Mix_FreeMusic(gameMusic);
+            gameMusic = nullptr;
+        }
+        if (menuMusic) {
+            Mix_FreeMusic(menuMusic);
+            menuMusic = nullptr;
+        }
     }
     TTF_Quit();
     IMG_Quit();

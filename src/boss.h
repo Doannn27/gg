@@ -13,6 +13,6 @@ public:
     Boss(SDL_Texture* tex, float x, float y);
 
     void update(float playerX, float playerY);
-    void shoot(std::vector<Bullet>& bullets, SDL_Texture* bulletTex, Player& player);
+    void shoot(vector<Bullet>& bullets, SDL_Texture* bulletTex, Player& player);
     void render(SDL_Renderer* renderer) override;
 };
