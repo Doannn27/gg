@@ -16,11 +16,23 @@ https://github.com/Doannn27/gg/releases
               Hãy di chuyển thật khéo léo để tránh các cuộc tấn công của kẻ thù,
 - Và đừng nghĩ mình là Faker 🗿
 ## 1. Bắt đầu game
-![Menu](assets/menu.png)
+![Menu](assets/menu.jpg)
 
 ## 2. Gameplay
 
 ## 3. Các thành phần
+- Player
+![Menu](assets/player/player.png)
 
+- Bullet
+![Menu](assets/player/bullet.png)
+
+- Enemy
+<img src="assets/enemy/ship4.png" width="300"/>
+
+- Boss
+![Menu](assets/enemy/boss.PNG)
 ## 4. Hệ thống lưu điểm
+
+## 5. Đồ Họa Game
 
