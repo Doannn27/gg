@@ -10,5 +10,5 @@ public:
 
     void moveToward(Player& player);
 
-    SDL_Rect getRect() const;  // 👉 thêm để hỗ trợ check va chạm dễ hơn
+    SDL_Rect getRect() const;  //  check va chạm 
 };

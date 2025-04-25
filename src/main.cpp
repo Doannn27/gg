@@ -8,6 +8,7 @@
 #include "utils.h"
 #include "globals.h"
 
+// Tài nguyên game
 const char* PLAYER_IMAGE = "D:/SDLgame/SDLgame/assets/player/player.png";
 const char* ENEMY_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/ship4.png";
 const char* BULLET_IMAGE = "D:/SDLgame/SDLgame/assets/player/bullet.png";
@@ -29,11 +30,12 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     return texture;
 }
 
+//Các hàm chức năng
 void renderMenu(SDL_Renderer* renderer, TTF_Font* font, int windowWidth, int windowHeight) {
     SDL_Color white = { 255, 255, 255 };
-    // Tạo màn hình nền
+
     SDL_RenderClear(renderer);
-    // Hiển thị tiêu đề
+
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Try to Win", white);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
     SDL_Rect titleRect = { SCREEN_WIDTH / 2 - titleSurface->w / 2, SCREEN_HEIGHT / 4, titleSurface->w, titleSurface->h };
@@ -239,10 +241,13 @@ void renderHighScoreScreen(SDL_Renderer* renderer, TTF_Font* font, int highScore
 
     SDL_RenderPresent(renderer);
 }
+// khá là nhiều nhỉ
 
+//Main
 int main(int argc, char* argv[]) {
     bool keepPlaying = true;
 
+    //Game
     while (keepPlaying) {
         SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
         IMG_Init(IMG_INIT_PNG);
@@ -289,6 +294,7 @@ int main(int argc, char* argv[]) {
         renderLoadingScreen(renderer);  // Hiển thị ảnh chờ trước khi vào menu
         Mix_PlayMusic(menuMusic, -1);
 
+        //Show menu
         while (showMenu) {
             renderMenu(renderer, font, windowWidth, windowHeight);
 
@@ -364,11 +370,11 @@ int main(int argc, char* argv[]) {
         bool reloading = false;
         Uint32 reloadStartTime = 0;
         Uint32 lastHitTime = 0;     // Thời điểm lần cuối bị trừ máu
-        const int HIT_COOLDOWN = 1500; // Khoảng thời gian miễn nhiễm (ms)
+        const int HIT_COOLDOWN = 1500; // Khoảng thời gian miễn nhiễm (ms) ban đầu cho 1000 nhưng do vẫn khó qua nên tăng thời gian cd
         const int RELOAD_TIME = 2000;
 
         bool isPaused = false;  // Biến lưu trạng thái tạm dừng
-
+        
         while (running) {
             SDL_GetWindowSize(window, &windowWidth, &windowHeight);
 
@@ -506,7 +512,7 @@ int main(int argc, char* argv[]) {
                 for (auto it = bullets.begin(); it != bullets.end(); ) {
                     bool erased = false;
 
-                    // Check vs normal enemies
+                    // Check vs normal enemies (quái thường chỉ di chuyển)
                     for (auto et = enemies.begin(); et != enemies.end(); ) {
                         if (checkCollision(&*it, &*et)) {
                             Mix_PlayChannel(-1, hitSound, 0);
@@ -526,7 +532,7 @@ int main(int argc, char* argv[]) {
                     }
                     if (erased) continue;
 
-                    // Check vs fire enemies
+                    // Check vs fire enemies (Quái bắn)
                     for (auto fet = fireEnemies.begin(); fet != fireEnemies.end(); ) {
                         if (checkCollision(&*it, &*fet)) {
                             Mix_PlayChannel(-1, hitSound, 0);
@@ -546,7 +552,7 @@ int main(int argc, char* argv[]) {
                     }
                     if (erased) continue;
 
-                    // Check vs boss
+                    // Check vs boss(trùm)
                     if (boss && checkCollision(&*it, boss)) {
                         boss->hp -= 10;
                         Mix_PlayChannel(-1, hitSound, 0);
@@ -674,7 +680,7 @@ int main(int argc, char* argv[]) {
 
             SDL_Delay(16);
         }
-
+        //này là dọn tài nguyên thôi
         TTF_CloseFont(font);
         SDL_DestroyTexture(background);
         SDL_DestroyTexture(playerTex);
@@ -699,3 +705,5 @@ int main(int argc, char* argv[]) {
     SDL_Quit();
     return 0;
 }
+//giờ hãy chơi thử nhé 
+// khá khó nhỉ :)))

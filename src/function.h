@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -16,3 +16,4 @@
 #include <math.h>
 
 using namespace std;
+// minh cho các thư viện vào đây 
