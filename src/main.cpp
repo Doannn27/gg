@@ -364,7 +364,7 @@ int main(int argc, char* argv[]) {
         bool reloading = false;
         Uint32 reloadStartTime = 0;
         Uint32 lastHitTime = 0;     // Thời điểm lần cuối bị trừ máu
-        const int HIT_COOLDOWN = 1000; // Khoảng thời gian miễn nhiễm (ms)
+        const int HIT_COOLDOWN = 1500; // Khoảng thời gian miễn nhiễm (ms)
         const int RELOAD_TIME = 2000;
 
         bool isPaused = false;  // Biến lưu trạng thái tạm dừng
@@ -628,7 +628,11 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // ===== HIỆN MENU GAME OVER =====
+        if (score > highScore) {
+            saveHighScore(HIGH_SCORE_FILE, score);
+        }
+
+        // Hiện menu gameover
         bool gameOverMenu = true;
         while (gameOverMenu) {
             renderGameOverMenu(renderer, font);
@@ -672,7 +676,6 @@ int main(int argc, char* argv[]) {
         }
 
         TTF_CloseFont(font);
-        Mix_FreeMusic(gameMusic);
         SDL_DestroyTexture(background);
         SDL_DestroyTexture(playerTex);
         SDL_DestroyTexture(enemyTex);
