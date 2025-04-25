@@ -51,6 +51,12 @@ void renderMenu(SDL_Renderer* renderer, TTF_Font* font, int windowWidth, int win
     SDL_Surface* exitSurface = TTF_RenderText_Solid(font, "Exit", white);
     SDL_Texture* exitTexture = SDL_CreateTextureFromSurface(renderer, exitSurface);
     SDL_Rect exitRect = { SCREEN_WIDTH / 2 - exitSurface->w / 2, SCREEN_HEIGHT / 2 + 50, exitSurface->w, exitSurface->h };
+    // Lưu highscore
+    SDL_Surface* highScoreSurface = TTF_RenderText_Solid(font, "High Scores", white);
+    SDL_Texture* highScoreTexture = SDL_CreateTextureFromSurface(renderer, highScoreSurface);
+    SDL_Rect highScoreRect = { SCREEN_WIDTH / 2 - highScoreSurface->w / 2, SCREEN_HEIGHT / 2 + 100, highScoreSurface->w, highScoreSurface->h };
+    
+    SDL_RenderCopy(renderer, highScoreTexture, NULL, &highScoreRect);
     SDL_RenderCopy(renderer, exitTexture, NULL, &exitRect);
     SDL_FreeSurface(exitSurface);
     SDL_DestroyTexture(exitTexture);
@@ -184,6 +190,56 @@ void renderLoadingScreen(SDL_Renderer* renderer) {
     SDL_Delay(2000); // Hiển thị trong 2 giây
 }
 
+int loadHighScore(const string& filename) {
+    ifstream file(filename);
+    int score = 0;
+    if (file.is_open()) {
+        file >> score;
+        file.close();
+    }
+    return score;
+}
+
+void saveHighScore(const string& filename, int score) {
+    ofstream file(filename);
+    if (file.is_open()) {
+        file << score;
+        file.close();
+    }
+}
+
+void renderHighScoreScreen(SDL_Renderer* renderer, TTF_Font* font, int highScore) {
+    SDL_Color white = { 255, 255, 255 };
+    SDL_RenderClear(renderer);
+
+    // Tiêu đề
+    SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "HIGH SCORES", white);
+    SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
+    SDL_Rect titleRect = { SCREEN_WIDTH / 2 - titleSurface->w / 2, SCREEN_HEIGHT / 4, titleSurface->w, titleSurface->h };
+    SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
+    SDL_FreeSurface(titleSurface);
+    SDL_DestroyTexture(titleTexture);
+
+    // Hiển thị điểm cao nhất
+    string hsText = "Highest Score: " + to_string(highScore);
+    SDL_Surface* hsSurface = TTF_RenderText_Solid(font, hsText.c_str(), white);
+    SDL_Texture* hsTexture = SDL_CreateTextureFromSurface(renderer, hsSurface);
+    SDL_Rect hsRect = { SCREEN_WIDTH / 2 - hsSurface->w / 2, SCREEN_HEIGHT / 2, hsSurface->w, hsSurface->h };
+    SDL_RenderCopy(renderer, hsTexture, NULL, &hsRect);
+    SDL_FreeSurface(hsSurface);
+    SDL_DestroyTexture(hsTexture);
+
+    // Hiển thị nút "Back"
+    SDL_Surface* backSurface = TTF_RenderText_Solid(font, "Back", white);
+    SDL_Texture* backTexture = SDL_CreateTextureFromSurface(renderer, backSurface);
+    SDL_Rect backRect = { SCREEN_WIDTH / 2 - backSurface->w / 2, SCREEN_HEIGHT / 2 + 80, backSurface->w, backSurface->h };
+    SDL_RenderCopy(renderer, backTexture, NULL, &backRect);
+    SDL_FreeSurface(backSurface);
+    SDL_DestroyTexture(backTexture);
+
+    SDL_RenderPresent(renderer);
+}
+
 int main(int argc, char* argv[]) {
     bool keepPlaying = true;
 
@@ -225,6 +281,8 @@ int main(int argc, char* argv[]) {
         int windowWidth = SCREEN_WIDTH;
         int windowHeight = SCREEN_HEIGHT;
 
+        const string HIGH_SCORE_FILE = "highscore.txt";
+        int highScore = loadHighScore(HIGH_SCORE_FILE);
 
         Uint32 startTime = SDL_GetTicks();  // Thời gian bắt đầu
         Uint32 elapsedTime = 0;  // Thời gian đã trôi qua
@@ -254,6 +312,31 @@ int main(int argc, char* argv[]) {
                         SDL_Quit();
                         return 0;
                     }
+
+                    else if (mouseX >= SCREEN_WIDTH / 2 - 100 && mouseX <= SCREEN_WIDTH / 2 + 100 &&
+                        mouseY >= SCREEN_HEIGHT / 2 + 100 && mouseY <= SCREEN_HEIGHT / 2 + 150) {
+                        bool inHighScore = true;
+                        while (inHighScore) {
+                            renderHighScoreScreen(renderer, font, highScore);
+
+                            while (SDL_PollEvent(&e)) {
+                                if (e.type == SDL_QUIT) {
+                                    inHighScore = false;
+                                    showMenu = false;
+                                }
+                                if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+                                    int mx, my;
+                                    SDL_GetMouseState(&mx, &my);
+                                    // Nếu nhấn "Back"
+                                    if (mx >= SCREEN_WIDTH / 2 - 100 && mx <= SCREEN_WIDTH / 2 + 100 &&
+                                        my >= SCREEN_HEIGHT / 2 + 80 && my <= SCREEN_HEIGHT / 2 + 120) {
+                                        inHighScore = false;
+                                    }
+                                }
+                            }
+                            SDL_Delay(16);
+                        }
+                    }
                 }
             }
 
@@ -271,6 +354,7 @@ int main(int argc, char* argv[]) {
 
         Uint32 lastSpawn = SDL_GetTicks();
         int score = 0;
+
         int killCount = 0;
 
         bool running = true;

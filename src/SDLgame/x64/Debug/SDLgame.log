@@ -6,9 +6,9 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.3480
   (compiling source file 'main.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\xmemory(732,103):
       the template instantiation context (the oldest one first) is
-          D:\SDLgame\SDLgame\src\main.cpp(347,37):
+          D:\SDLgame\SDLgame\src\main.cpp(431,37):
           see reference to function template instantiation 'void std::vector<Bullet,std::allocator<Bullet>>::emplace_back<SDL_Texture*&,float&,float&,int&,int&>(SDL_Texture *&,float &,float &,int &,int &)' being compiled
-              D:\SDLgame\SDLgame\src\main.cpp(347,49):
+              D:\SDLgame\SDLgame\src\main.cpp(431,49):
               see the first reference to 'std::vector<Bullet,std::allocator<Bullet>>::emplace_back' in 'SDL_main'
           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\vector(909,24):
           see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<SDL_Texture*&,float&,float&,int&,int&>(SDL_Texture *&,float &,float &,int &,int &)' being compiled
@@ -39,9 +39,9 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.3480
   (compiling source file 'main.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\xmemory(732,103):
       the template instantiation context (the oldest one first) is
-          D:\SDLgame\SDLgame\src\main.cpp(484,37):
+          D:\SDLgame\SDLgame\src\main.cpp(568,37):
           see reference to function template instantiation 'void std::vector<FireEnemy,std::allocator<FireEnemy>>::emplace_back<SDL_Texture*&,int,int>(SDL_Texture *&,int &&,int &&)' being compiled
-              D:\SDLgame\SDLgame\src\main.cpp(484,49):
+              D:\SDLgame\SDLgame\src\main.cpp(568,49):
               see the first reference to 'std::vector<FireEnemy,std::allocator<FireEnemy>>::emplace_back' in 'SDL_main'
           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include\vector(909,24):
           see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<SDL_Texture*&,int,int>(SDL_Texture *&,int &&,int &&)' being compiled
