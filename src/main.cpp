@@ -19,7 +19,7 @@ const char* FONT_PATH = "D:/SDLgame/SDLgame/assets/font/arial.ttf";
 const char* FIRE_ENEMY_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/ship_9.png";
 const char* BOSS_IMAGE = "D:/SDLgame/SDLgame/assets/enemy/boss.png";
 const char* MENU_IMAGE = "D:/SDLgame/SDLgame/assets/menu.jpg";
-const char* GAME_MUSIC = "D:/SDLgame/SDLgame/assets/space-wind.mp3";
+const char* GAME_MUSIC = "D:/SDLgame/SDLgame/assets/music.mp3";
 
 SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     SDL_Surface* surface = IMG_Load(path);
