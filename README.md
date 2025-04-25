@@ -16,6 +16,7 @@ https://github.com/Doannn27/gg/releases
               Hãy di chuyển thật khéo léo để tránh các cuộc tấn công của kẻ thù,
 - Và đừng nghĩ mình là Faker 🗿
 ## 1. Bắt đầu game
+![Menu](assets/menu.png)
 
 ## 2. Gameplay
 
