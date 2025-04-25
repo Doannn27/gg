@@ -1,6 +1,6 @@
 # Shooting Spaceship
 
-* chạy demo: 
+* chạy demo: https://drive.google.com/drive/u/4/folders/1toQcGnyA81u-XOkXXnRfYulvN_dO8ZL8?dmr=1&ec=wgc-drive-globalnav-goto
 ## Giới thiệu về game
 - Shooting Spaceship là 1 game thuộc thể loại Arcade game. Đắm mình vào cuộc chiến giữa con người và các thế lực bên ngoài, bạn hãy cố gắng hết sức để tiêu diệt càng nhiều kẻ địch càng tốt, chỉ bằng những vũ khí đơn giản.
 
@@ -19,7 +19,8 @@ https://github.com/Doannn27/gg/releases
 ![Menu](assets/menu.jpg)
 
 ## 2. Gameplay
-
+![Menu](assets/1.jpg)
+![Menu](assets/2.jpg)
 ## 3. Các thành phần
 - Player
 ![Menu](assets/player/player.png)
