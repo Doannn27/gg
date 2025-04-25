@@ -12,3 +12,9 @@
 ## 👨‍💻 Tác giả
 
 - GitHub: [Doannn27](https://github.com/Doannn27)
+## Cách chơi 
+- Sử dụng các phím W A S D để di chuyển, chuột trái để bắn, phím R để nạp đạn
+- lời khuyên: đừng bao giờ phí đạn :smirk:
+              Hãy di chuyển thật khéo léo để tránh các cuộc tấn công của kẻ thù,
+- Và đừng nghĩ mình là Faker 🗿
+## Link tải game
