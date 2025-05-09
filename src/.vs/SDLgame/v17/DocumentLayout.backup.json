@@ -94,9 +94,9 @@
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\SDLgame\\SDLgame\\src\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "D:\\SDLgame\\SDLgame\\src\\main.cpp*",
-              "RelativeToolTip": "main.cpp*",
-              "ViewState": "AgIAAIMCAAAAAAAAAAAAAMQCAAATAAAAAAAAAA==",
+              "ToolTip": "D:\\SDLgame\\SDLgame\\src\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAAG8CAAAAAAAAAAAAAMQCAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-11T17:25:39.796Z",
               "IsPinned": true,
@@ -112,8 +112,7 @@
               "RelativeToolTip": "function.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-14T13:10:55.915Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-14T13:10:55.915Z"
             },
             {
               "$type": "Document",
@@ -125,8 +124,7 @@
               "RelativeToolTip": "enemy.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-12T07:17:54.065Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T07:17:54.065Z"
             },
             {
               "$type": "Document",
@@ -138,8 +136,7 @@
               "RelativeToolTip": "constants.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-12T07:29:21.358Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T07:29:21.358Z"
             },
             {
               "$type": "Document",
@@ -151,8 +148,7 @@
               "RelativeToolTip": "bullet.cpp",
               "ViewState": "AgIAAAEAAAAAAAAAAAAgwCkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-13T09:42:27.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-13T09:42:27.106Z"
             },
             {
               "$type": "Document",
@@ -164,8 +160,7 @@
               "RelativeToolTip": "player.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-14T13:08:40.706Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-14T13:08:40.706Z"
             },
             {
               "$type": "Document",
@@ -177,8 +172,7 @@
               "RelativeToolTip": "gameobject.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-12T07:18:00.675Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T07:18:00.675Z"
             },
             {
               "$type": "Document",
@@ -190,8 +184,7 @@
               "RelativeToolTip": "boss.cpp",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAACgAAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-19T11:17:40.282Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-19T11:17:40.282Z"
             },
             {
               "$type": "Document",
@@ -203,8 +196,7 @@
               "RelativeToolTip": "enemy.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-12T07:18:05.18Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T07:18:05.18Z"
             },
             {
               "$type": "Document",
@@ -216,8 +208,7 @@
               "RelativeToolTip": "globals.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-19T10:49:12.255Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-19T10:49:12.255Z"
             },
             {
               "$type": "Document",
@@ -229,8 +220,7 @@
               "RelativeToolTip": "utils.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-19T10:47:45.177Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-19T10:47:45.177Z"
             },
             {
               "$type": "Document",

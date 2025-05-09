@@ -552,7 +552,7 @@ int main(int argc, char* argv[]) {
                     }
                     if (erased) continue;
 
-                    // Check vs boss(trùm)
+                    // Check vs boss
                     if (boss && checkCollision(&*it, boss)) {
                         boss->hp -= 10;
                         Mix_PlayChannel(-1, hitSound, 0);
@@ -680,7 +680,7 @@ int main(int argc, char* argv[]) {
 
             SDL_Delay(16);
         }
-        //này là dọn tài nguyên thôi
+        // dọn tài nguyên thôi
         TTF_CloseFont(font);
         SDL_DestroyTexture(background);
         SDL_DestroyTexture(playerTex);
@@ -705,5 +705,3 @@ int main(int argc, char* argv[]) {
     SDL_Quit();
     return 0;
 }
-//giờ hãy chơi thử nhé 
-// khá khó nhỉ :)))
