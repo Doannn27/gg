@@ -15,8 +15,7 @@ https://github.com/Doannn27/gg/releases
 *khi mọi thứ đều hướng ánh mắt về bạn*
 - Sử dụng các phím W A S D để di chuyển:runner:, chuột trái để bắn 🏹, phím R để nạp đạn🔫
 - lời khuyên: đừng bao giờ phí đạn :smirk:
-              Hãy di chuyển thật khéo léo để tránh các cuộc tấn công của kẻ thù,
-- Và đừng nghĩ mình là Faker 🗿
+              Hãy di chuyển thật khéo léo để tránh các cuộc tấn công của kẻ thù
 ## 1. Bắt đầu game
 ![Menu](assets/menu.jpg)
 
@@ -49,7 +48,7 @@ Folder assets chứa tất cả hình ảnh và âm thanh của game, được c
 - Hệ thống highscore sẽ tự động lưu lại điểm sổ cao nhất của bạn, giúp bạn biết được "trình độ" của mình cũng như độ khó của game là như thế nào.
 
 *ý tưởng game lấy từ tự game vô cùng quen thuộc: Bắn Gà*
-*ảnh và âm thanh được lấy tham khảo từ trang https://opengameart.org, trong đó thì có ảnh của player là mình tự vẽ 😃*-
+*ảnh và âm thanh được lấy tham khảo từ trang https://opengameart.org, một số ảnh mình tự thiết kế*-
 
 *ý tưởng game lấy từ tự game vô cùng quen thuộc: Bắn Gà.
 trên tư tưởng đó mình muốn tạo 1 con game hấp dẫn hơn, và cũng thật khó hơn để tất cả mọi người có thể cảm nhận niềm vui khi chơi những tựa game khó*
